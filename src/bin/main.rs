@@ -11,7 +11,7 @@ use defmt::info;
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
 use esp_grow::{display, tds::{TdsDriver, TdsSamplingConfig}};
-use esp_hal::clock::CpuClock;
+use esp_hal::{clock::CpuClock, peripherals::Peripherals};
 use esp_hal::timer::timg::TimerGroup;
 use {esp_backtrace as _, esp_println as _};
 extern crate alloc;
@@ -53,7 +53,7 @@ async fn main(spawner: Spawner) -> ! {
             .await
             .expect("Failed to setup display");
 
-    let tds = TdsDriver::new(peripherals.GPIO4, peripherals.ADC1, TdsSamplingConfig::default());
+    let tds = TdsDriver::new(peripherals.GPIO1, peripherals.ADC1, TdsSamplingConfig::default());
     let mut ctx = esp_grow::Context::new(display, tds);
 
     let _ = spawner;
